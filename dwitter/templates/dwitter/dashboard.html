@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="column">
+    {% for dweet in dweets %}
+        {% comment %} add cycle color for each dweet {% endcomment %}
+        <div class="box" style='color:{% cycle 'red' 'green' 'blue' 'pink' %}'>
+            {{dweet.body}}
+            <span class="is-small has-text-grey-light">
+                {% comment %} use timesince filter {% endcomment %}
+                {{ dweet.created_at }} by {{ dweet.user.username }} - {{ dweet.created_at|timesince}} ago
+            </span>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="column is-one-third">
+    <div class="form-group">
+        <a href="{% url 'dwitter:profile_list' %} ">
+            <button class="button is-dark is-outlined is-fullwidth">
+                All Profiles
+            </button>
+        </a>
+    </div>
+    <div class="form-group">
+        <a href="{% url 'dwitter:profile' request.user.profile.id %} ">
+            <button class="button is-success is-light is-outlined is-fullwidth">
+                My Profile
+            </button>
+        </a>
+    </div>
+    <div class="form-group">
+        <div class="form-group">
+            <h2 class="title is-2">Add a Dweet</p>
+        </div>
+        <div class="block">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="button is-success is-fullwidth is-medium mt-5"
+                        type="submit">Dweet
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

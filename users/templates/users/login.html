@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container is-max-desktop">
+    <div class="box">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="field">
+                {{form.as_p}}
+            </div>
+            <div class="field">
+                <button class="button is-link is-hovered">Login</button>
+            </div>
+        </form>
+        {% if messages %} 
+            <article class="message is-danger">
+                <div class="message-body">
+                    {% for message in messages%}
+                        {{message}}
+                    {% endfor %}
+                </div>
+            </article>
+        {% endif %}
+        <div class="field">
+            Forgot password? <a href="{% url 'password_reset' %}">Reset password</a>
+        </div>
+        <div class="field">
+            <h2>Don't have an existing account? <a href="{% url 'register' %}">Sign up</a> now!</h2>
+            <h2> Or login with 
+                <a class="control has-icons-left" href="{% url 'social:begin' 'github' %}">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                GitHub
+                </a>
+            </h2>
+        </div>
+    </div>
+</div>
+{% endblock content%}

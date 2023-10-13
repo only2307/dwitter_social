@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% comment %} {% block javascript %}
+	<script>     
+		$("#id_username").change(function () {       
+		var username = $(this).val();        
+		$.ajax({        
+				url: '/check_username/',         
+				data: {           
+					'username': username          
+				},         
+				dataType: 'json',            
+				success: function (data) {           
+					if (data.username_exists) {             
+						alert("Username already taken");
+					}         
+				}       
+		});      
+		});   
+	</script> 
+{% endblock %} {% endcomment %}
+{% block content %}
+<div class="container is-max-desktop">
+	<div class="box">
+		<h2>Register</h2>
+		<form method="post" novalidate>
+			{% csrf_token %}
+			{% for field in form %}
+			<p>
+				{% if field.errors %}
+					<article class="message is-danger">
+						<ul class="errorlist message-body">
+							{% for error in field.errors %}
+							<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</article>
+				{% endif %}
+				{{ field.label_tag }} {{ field }}
+			</p>
+			{% endfor %}
+			<div class="field">
+                <button class="button is-link is-hovered">Register</button>
+            </div>
+		</form>
+		<div class="field">
+			<h2>Already have an account? <a href="{% url 'login' %}">Login</a> now!</h2>
+		</div>
+	</div>
+</div>
+{% endblock %}
